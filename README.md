@@ -43,7 +43,7 @@ A modern, full-stack expense tracking application built with **React Router v7 (
 ```bash
 git clone <repository-url>
 cd LedgerLite
-npm install
+pnpm install
 ```
 
 ### 2. Configure Environment
@@ -61,12 +61,12 @@ REFRESH_TOKEN_SECRET="your_random_refresh_secret"
 ### 3. Database Migration
 Push the schema to your PostgreSQL database:
 ```bash
-npx drizzle-kit push
+pnpm drizzle-kit push
 ```
 
 ### 4. Run Development Server
 ```bash
-npm run dev
+pnpm run dev
 ```
 Open [http://localhost:5173](http://localhost:5173) to view the app.
 
