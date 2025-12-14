@@ -1,9 +1,46 @@
-import { Link } from "react-router";
+import { useEffect, useState } from "react";
+import { Link, useFetcher, useNavigate, redirect } from "react-router";
+import { CONFIG, ROUTES } from "~/utils/constants";
+import { AuthService } from "~/services/auth.server";
+import type { Route } from "../+types/root";
+
+export async function loader({ request }: Route.LoaderArgs) {
+  await AuthService.requireAnonymous(request);
+  return null;
+}
 
 export default function Login() {
+  const navigate = useNavigate();
+  const fetcher = useFetcher();
+  const [errors, setErrors] = useState<string | null>(null);
+
+  useEffect(()=>{
+    if(fetcher.data?.error){
+      setErrors(fetcher.data.error);
+    }else if(fetcher.data?.success){
+      navigate(ROUTES.DASHBOARD);
+    }
+  },[fetcher.data])
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setErrors(null);
+    const formData = new FormData(e.currentTarget);
+    const email = formData.get("email");
+    const password = formData.get("password");
+    if (!email || !password) {
+      setErrors("Email and password are required");
+      return;
+    }
+    if(String(password).length < CONFIG.AUTH.PASSWORD_MIN_LENGTH) {
+      setErrors(`Password must be at least ${CONFIG.AUTH.PASSWORD_MIN_LENGTH} characters long`);
+      return;
+    }
+    setErrors(null);
+    fetcher.submit(formData, { method: "post", action: ROUTES.API.AUTH.LOGIN });
+  }
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex justify-center items-center p-4 relative overflow-hidden">
-      {/* Background Decor */}
       <div className="absolute top-0 right-0 w-96 h-96 bg-purple-200 dark:bg-purple-900/20 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 opacity-50"></div>
       <div className="absolute bottom-0 left-0 w-96 h-96 bg-indigo-200 dark:bg-indigo-900/20 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2 opacity-50"></div>
 
@@ -13,11 +50,19 @@ export default function Login() {
           <p className="text-gray-500 dark:text-gray-400">Sign in to access your dashboard</p>
         </div>
 
-        <form className="space-y-6">
+        {errors && (
+          <div className="mb-4 p-3 rounded-lg bg-red-100 border border-red-200 text-red-700 text-sm dark:bg-red-900/30 dark:border-red-800 dark:text-red-300">
+            {errors}
+          </div>
+        )}
+
+        <form className="space-y-6" onSubmit={handleSubmit}>
           <div>
             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Email Address</label>
             <input
               type="email"
+              name="email"
+              required
               className="w-full px-5 py-3 rounded-xl bg-gray-50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700 focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition-all text-gray-900 dark:text-white"
               placeholder="you@example.com"
             />
@@ -27,18 +72,19 @@ export default function Login() {
             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Password</label>
             <input
               type="password"
+              name="password"
               className="w-full px-5 py-3 rounded-xl bg-gray-50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700 focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition-all text-gray-900 dark:text-white"
               placeholder="••••••••"
             />
           </div>
 
-          <div className="flex items-center justify-between text-sm">
+          {/* <div className="flex items-center justify-between text-sm">
             <label className="flex items-center text-gray-500 dark:text-gray-400 cursor-pointer hover:text-gray-700 dark:hover:text-gray-300">
               <input type="checkbox" className="mr-2 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500" />
               Remember me
             </label>
             <a href="#" className="font-medium text-indigo-600 hover:text-indigo-500 dark:text-indigo-400">Forgot password?</a>
-          </div>
+          </div> */}
 
           <button
             type="submit"
@@ -50,8 +96,14 @@ export default function Login() {
 
         <div className="mt-8 text-center text-sm text-gray-500 dark:text-gray-400">
           Don't have an account?{" "}
-          <Link to="/register" className="font-semibold text-indigo-600 hover:text-indigo-500 dark:text-indigo-400">
+          <Link to={ROUTES.REGISTER} className="font-semibold text-indigo-600 hover:text-indigo-500 dark:text-indigo-400">
             Create account
+          </Link>
+        </div>
+        <div className="mt-2 text-center text-sm text-gray-500 dark:text-gray-400">
+          Back to{" "}
+          <Link to={ROUTES.HOME} className="font-semibold text-indigo-600 hover:text-indigo-500 dark:text-indigo-400">
+            Home
           </Link>
         </div>
       </div>

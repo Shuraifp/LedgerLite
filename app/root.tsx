@@ -9,6 +9,7 @@ import {
 
 import type { Route } from "./+types/root";
 import "./app.css";
+import { CONFIG } from "./utils/constants";
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -22,6 +23,13 @@ export const links: Route.LinksFunction = () => [
     href: "https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap",
   },
 ];
+
+export function meta({ }: Route.MetaArgs) {
+  return [
+    { title: CONFIG.APP_NAME },
+    { name: "description", content: `Welcome to ${CONFIG.APP_NAME}` },
+  ];
+}
 
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
@@ -43,6 +51,13 @@ export function Layout({ children }: { children: React.ReactNode }) {
 
 export default function App() {
   return <Outlet />;
+}
+
+import { AuthService } from "./services/auth.server";
+
+export async function loader({ request }: Route.LoaderArgs) {
+  const user = await AuthService.getAuthenticatedUser(request);
+  return { user };
 }
 
 export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
