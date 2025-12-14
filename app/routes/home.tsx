@@ -1,6 +1,10 @@
-import { Link } from "react-router";
+import { Link, useRouteLoaderData } from "react-router";
+import { ROUTES, CONFIG } from "~/utils/constants";
 
 export default function Home() {
+  const data = useRouteLoaderData("root");
+  const user = data?.user;
+
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex flex-col justify-center items-center p-4 transition-colors duration-300">
       <div className="absolute inset-0 overflow-hidden">
@@ -31,28 +35,39 @@ export default function Home() {
         </h1>
         
         <p className="text-xl text-gray-600 dark:text-gray-300 mb-10 leading-relaxed">
-          LedgerLite is the secure, intelligent way to track expenses. 
+          {CONFIG.APP_NAME} is the secure, intelligent way to track expenses. 
           Experience financial clarity with our premium dashboard.
         </p>
 
         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-          <Link
-            to="/register"
-            className="w-full sm:w-auto px-8 py-4 bg-gray-900 dark:bg-white text-white dark:text-gray-900 rounded-xl font-semibold hover:scale-105 transition-transform shadow-lg shadow-gray-900/20 dark:shadow-white/20"
-          >
-            Get Started
-          </Link>
-          <Link
-            to="/login"
-            className="w-full sm:w-auto px-8 py-4 bg-white dark:bg-gray-800 text-gray-900 dark:text-white border border-gray-200 dark:border-gray-700 rounded-xl font-semibold hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors shadow-sm"
-          >
-            Sign In
-          </Link>
+          {user ? (
+            <Link
+              to={ROUTES.DASHBOARD}
+              className="w-full sm:w-auto px-8 py-4 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-xl font-semibold hover:scale-105 transition-transform shadow-lg shadow-indigo-500/30"
+            >
+              Go to Dashboard
+            </Link>
+          ) : (
+            <>
+              <Link
+                to={ROUTES.REGISTER}
+                className="w-full sm:w-auto px-8 py-4 bg-gray-900 dark:bg-white text-white dark:text-gray-900 rounded-xl font-semibold hover:scale-105 transition-transform shadow-lg shadow-gray-900/20 dark:shadow-white/20"
+              >
+                Get Started
+              </Link>
+              <Link
+                to={ROUTES.LOGIN}
+                className="w-full sm:w-auto px-8 py-4 bg-white dark:bg-gray-800 text-gray-900 dark:text-white border border-gray-200 dark:border-gray-700 rounded-xl font-semibold hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors shadow-sm"
+              >
+                Sign In
+              </Link>
+            </>
+          )}
         </div>
       </div>
       
       <div className="absolute bottom-8 text-sm text-gray-400 dark:text-gray-500">
-        © 2025 LedgerLite. Secure & Private.
+        © 2025 {CONFIG.APP_NAME}. Secure & Private.
       </div>
     </div>
   );

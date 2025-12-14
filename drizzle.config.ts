@@ -1,4 +1,4 @@
-import "dotenv/config"; // Ensure .env is loaded
+import "dotenv/config"; 
 import { defineConfig } from "drizzle-kit";
 
 export default defineConfig({

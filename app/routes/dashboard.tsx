@@ -1,4 +1,13 @@
-import { Link } from "react-router";
+import { Link, useLoaderData } from "react-router";
+import { ROUTES } from "~/utils/constants";
+import { AuthService } from "~/services/auth.server";
+import { Header } from "~/components/Header";
+import type { Route } from "./+types/dashboard";
+
+export async function loader({ request }: Route.LoaderArgs) {
+  const user = await AuthService.requireAuthenticatedUser(request);
+  return { user };
+}
 
 // Mock Data for UI
 const recentTransactions = [
@@ -9,30 +18,31 @@ const recentTransactions = [
 ];
 
 export default function Dashboard() {
+  const { user } = useLoaderData<typeof loader>();
+
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
       {/* Sidebar / Mobile Nav Placeholder - Keeping it simple for now */}
       
-      {/* Main Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         
-        {/* Header */}
-        <div className="flex justify-between items-center mb-10">
+        <Header user={user} />
+
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-10 gap-4">
           <div>
             <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Dashboard</h1>
-            <p className="text-gray-500 dark:text-gray-400 mt-1">Welcome back, Mohammed</p>
+            <p className="text-gray-500 dark:text-gray-400 mt-1">Welcome back, {user.username}</p>
           </div>
-          <div className="flex gap-3">
-             <button className="px-4 py-2 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-200 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 font-medium">
+          <div className="flex gap-3 w-full sm:w-auto">
+             <button className="flex-1 sm:flex-none px-4 py-2 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-200 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 font-medium transition-colors">
               Export
             </button>
-            <button className="px-4 py-2 bg-indigo-600 text-white rounded-xl shadow-lg shadow-indigo-500/30 hover:bg-indigo-700 hover:scale-105 transition-all font-medium">
+            <button className="flex-1 sm:flex-none px-4 py-2 bg-indigo-600 text-white rounded-xl shadow-lg shadow-indigo-500/30 hover:bg-indigo-700 hover:scale-105 transition-all font-medium whitespace-nowrap">
               + Add Expense
             </button>
           </div>
         </div>
 
-        {/* Summary Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
           <div className="bg-white dark:bg-gray-800 rounded-3xl p-6 shadow-sm border border-gray-100 dark:border-gray-700/50 relative overflow-hidden group hover:shadow-md transition-shadow">
             <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
