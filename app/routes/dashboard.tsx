@@ -69,10 +69,6 @@ export default function Dashboard() {
 
             <p className="text-gray-500 dark:text-gray-400 text-sm font-medium mb-1">Total Balance</p>
             <h3 className="text-4xl font-bold text-gray-900 dark:text-white">₹{summary.netBalance}</h3>
-            {/* <p className="text-green-500 text-sm font-medium mt-2 flex items-center">
-              <span className="bg-green-100 dark:bg-green-900/30 px-2 py-0.5 rounded-full mr-2">↑ 2.5%</span> 
-              from last month
-            </p> */}
           </div>
 
           <div className="bg-white dark:bg-gray-800 rounded-3xl p-6 shadow-sm border border-gray-100 dark:border-gray-700/50">
