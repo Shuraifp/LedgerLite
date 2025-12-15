@@ -15,18 +15,17 @@ export default function Home() {
         <div className="mb-8 flex justify-center">
           <div className="p-3 bg-white dark:bg-gray-800 rounded-2xl shadow-xl shadow-indigo-500/10 ring-1 ring-gray-900/5 dark:ring-white/10">
             <svg
-              className="w-12 h-12 text-indigo-600 dark:text-indigo-400"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={1.5}
-                d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-              />
-            </svg>
+  className="w-12 h-12 text-indigo-600 dark:text-indigo-400"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  strokeWidth={1.5}
+  strokeLinecap="round"
+  strokeLinejoin="round"
+>
+  <path d="M6 4h12M6 8h12" />
+  <path d="M6 4c4 0 8 2 8 6s-4 6-8 6h6l4 4" />
+</svg>
           </div>
         </div>
 
