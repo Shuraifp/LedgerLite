@@ -3,6 +3,7 @@ export const ROUTES = {
   LOGIN: "/login",
   REGISTER: "/register",
   DASHBOARD: "/dashboard",
+  TRANSACTIONS: "/transactions",
   API: {
     AUTH: {
       REGISTER: "/api/auth/register",
@@ -19,3 +20,10 @@ export const CONFIG = {
     PASSWORD_MIN_LENGTH: 6,
   },
 };
+
+export const TransactionType = {
+  INCOME: "income",
+  EXPENSE: "expense",
+} as const;
+
+export type TransactionType = typeof TransactionType[keyof typeof TransactionType];

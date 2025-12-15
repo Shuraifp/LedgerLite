@@ -4,7 +4,7 @@ import { Logo } from "./Logo";
 
 export function Header() {
   return (
-    <header className="flex justify-between items-center mb-8 py-4 bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm sticky top-0 z-50 border-b border-gray-100 dark:border-gray-700/50 -mx-4 px-4 sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8">
+    <header className="flex justify-between items-center mb-8 py-4 bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm sticky top-0 z-25 border-b border-gray-100 dark:border-gray-700/50 -mx-4 px-4 sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8">
       <Logo />
       
       <div className="flex gap-3 items-center">

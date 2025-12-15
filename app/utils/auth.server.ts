@@ -15,7 +15,7 @@ export const comparePassword = async (password: string, hash: string) => {
 };
 
 export const generateAccessToken = (userId: string) => {
-  return jwt.sign({ userId }, ACCESS_TOKEN_SECRET, { expiresIn: "15m" });
+  return jwt.sign({ userId }, ACCESS_TOKEN_SECRET, { expiresIn: "1d" });
 };
 
 export const generateRefreshToken = (userId: string, familyId: string) => {
@@ -48,7 +48,7 @@ const cookieOptions: SerializeOptions = {
 export const createAuthCookies = (accessToken: string, refreshToken: string) => {
   const accessCookie = serialize("accessToken", accessToken, {
     ...cookieOptions,
-    maxAge: 15 * 60,
+    maxAge: 24 * 60 * 60,
   });
 
   const refreshCookie = serialize("refreshToken", refreshToken, {

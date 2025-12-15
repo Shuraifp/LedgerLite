@@ -14,7 +14,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
     }
 
     const newCookies = await AuthService.refresh(refreshToken);
-
+    console.log(newCookies);
     return data({ success: true }, {
       status: 200,
       headers: newCookies
