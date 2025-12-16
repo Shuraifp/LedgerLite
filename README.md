@@ -2,6 +2,9 @@
 
 A modern, full-stack expense tracking application built with **React Router v7 (Framework Mode)**, **Drizzle ORM**, and **PostgreSQL**.
 
+> **Live link**
+> https://ledgerlite.duckdns.org
+
 > **Assessment Task Submission**
 > This project demonstrates a secure, type-safe full-stack architecture with JWT authentication (Access + Refresh Tokens) and server-side rendering.
 
@@ -83,15 +86,6 @@ Drizzle is lightweight, "serverless-ready", and offers best-in-class TypeScript 
 
 ### Auth Strategy
 We avoided `localStorage` for tokens to prevent XSS. Instead, we use **HttpOnly Cookies**. To handle the stateless nature of JWTs securely, we implemented **Refresh Token Rotation**, ensuring that even if a token is stolen, it cannot be used indefinitely.
-
-## 📦 Deployment
-
-The application is Docker-ready.
-```bash
-docker build -t ledgerlite .
-docker run -p 3000:3000 ledgerlite
-```
-can be deployed to AWS EC2, Google Cloud Run, or any VPS.
 
 ---
 Built with ❤️ by Mohammed Shuraif
