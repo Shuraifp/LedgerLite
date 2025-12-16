@@ -28,6 +28,10 @@ export default function Dashboard() {
   const { user, summary, transactions, categories, weekChartData, monthChartData } = useLoaderData<typeof loader>();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  const maxAmount = Math.max(summary.totalIncome, summary.totalExpense);
+  const incomePercentage = maxAmount > 0 ? (summary.totalIncome / maxAmount) * 100 : 0;
+  const expensePercentage = maxAmount > 0 ? (summary.totalExpense / maxAmount) * 100 : 0;
+
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
       <AddTransactionModal 
@@ -75,7 +79,7 @@ export default function Dashboard() {
             <p className="text-gray-500 dark:text-gray-400 text-sm font-medium mb-1">Income</p>
             <h3 className="text-3xl font-bold text-gray-900 dark:text-white">₹{summary.totalIncome}</h3>
              <div className="w-full bg-gray-100 dark:bg-gray-700 h-2 rounded-full mt-4 overflow-hidden">
-                <div className="bg-green-500 h-full rounded-full" style={{ width: '70%' }}></div>
+                <div className="bg-green-500 h-full rounded-full transition-all duration-500" style={{ width: `${incomePercentage}%` }}></div>
              </div>
           </div>
 
@@ -83,14 +87,13 @@ export default function Dashboard() {
             <p className="text-gray-500 dark:text-gray-400 text-sm font-medium mb-1">Expenses</p>
             <h3 className="text-3xl font-bold text-gray-900 dark:text-white">₹{summary.totalExpense}</h3>
              <div className="w-full bg-gray-100 dark:bg-gray-700 h-2 rounded-full mt-4 overflow-hidden">
-                <div className="bg-red-500 h-full rounded-full" style={{ width: '45%' }}></div>
+                <div className="bg-red-500 h-full rounded-full transition-all duration-500" style={{ width: `${expensePercentage}%` }}></div>
              </div>
           </div>
         </div>
 
         
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        {/* Main Chart Area */}
         <div className="lg:col-span-2">
           <ExpenseChart weekData={weekChartData} monthData={monthChartData} />
         </div>

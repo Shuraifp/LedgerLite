@@ -27,3 +27,11 @@ export const TransactionType = {
 } as const;
 
 export type TransactionType = typeof TransactionType[keyof typeof TransactionType];
+
+export interface Category {
+  id: string;
+  name: string;
+  type: string;
+  icon: string | null;
+  color: string | null;
+}
